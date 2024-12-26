@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\亂七八糟.Model\亂七八糟.Model.csproj" />
     <ProjectReference Include="..\亂七八糟.ServiceDefaults\亂七八糟.ServiceDefaults.csproj" />
   </ItemGroup>
 

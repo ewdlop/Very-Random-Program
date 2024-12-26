@@ -1,7 +1,8 @@
+using 亂七八糟.ServiceDefaults;
 using 亂七八糟.Web;
 using 亂七八糟.Web.Components;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add service defaults & Aspire client integrations.
 builder.AddServiceDefaults();

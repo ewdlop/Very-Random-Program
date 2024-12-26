@@ -1,3 +1,5 @@
+using 亂七八糟.Model;
+
 namespace 亂七八糟.Web;
 
 public class WeatherApiClient(HttpClient httpClient)
@@ -21,10 +23,4 @@ public class WeatherApiClient(HttpClient httpClient)
 
         return forecasts?.ToArray() ?? [];
     }
-}
-
-public record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-    public int TemperatureK => TemperatureC + 273;
 }

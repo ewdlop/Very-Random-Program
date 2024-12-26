@@ -1,8 +1,8 @@
-var builder = DistributedApplication.CreateBuilder(args);
+IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
-var cache = builder.AddRedis("cache");
+IResourceBuilder<RedisResource> cache = builder.AddRedis("cache");
 
-var apiService = builder.AddProject<Projects.亂七八糟_ApiService>("apiservice");
+IResourceBuilder<ProjectResource> apiService = builder.AddProject<Projects.亂七八糟_ApiService>("apiservice");
 
 builder.AddProject<Projects.亂七八糟_Web>("webfrontend")
     .WithExternalHttpEndpoints()

@@ -1,4 +1,7 @@
-var builder = WebApplication.CreateBuilder(args);
+﻿using 亂七八糟.Model;
+using 亂七八糟.ServiceDefaults;
+
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add service defaults & Aspire client integrations.
 builder.AddServiceDefaults();
@@ -9,7 +12,7 @@ builder.Services.AddProblemDetails();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler();
@@ -38,8 +41,3 @@ app.MapGet("/weatherforecast", () =>
 app.MapDefaultEndpoints();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

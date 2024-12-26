@@ -10,7 +10,7 @@
 
 <p>This component demonstrates showing data loaded from a backend API service.</p>
 
-@if (forecasts == null)
+@if (Forecasts == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -26,7 +26,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var forecast in Forecasts)
             {
                 <tr>
                     <td>@forecast.Date.ToShortDateString()</td>
@@ -39,11 +39,4 @@ else
     </table>
 }
 
-@code {
-    private WeatherForecast[]? forecasts;
 
-    protected override async Task OnInitializedAsync()
-    {
-        forecasts = await WeatherApi.GetWeatherAsync();
-    }
-}
