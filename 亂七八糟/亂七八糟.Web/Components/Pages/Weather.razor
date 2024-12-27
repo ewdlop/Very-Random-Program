@@ -28,12 +28,22 @@ else
         <tbody>
             @foreach (var forecast in Forecasts)
             {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
+                @if (forecast == null)
+                {
+                    <tr>
+                        <td colspan="4">No data available</td>
+                    </tr>
+                    break;
+                }
+                else
+                {
+                    <tr>
+                        <td>@forecast.Date.ToShortDateString()</td>
+                        <td>@forecast.TemperatureC</td>
+                        <td>@forecast.TemperatureF</td>
+                        <td>@forecast.Summary</td>
+                    </tr>
+                }
             }
         </tbody>
     </table>
