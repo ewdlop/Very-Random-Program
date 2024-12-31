@@ -9,10 +9,15 @@ namespace 亂七八糟.RazorClassLibrary;
 // This class can be registered as scoped DI service and then injected into Blazor
 // components for use.
 
+
 public class ExampleJsInterop : IAsyncDisposable
 {
     private readonly Lazy<Task<IJSObjectReference>> moduleTask;
 
+    /// <summary>
+    /// https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.javascript?view=net-9.0
+    /// </summary>
+    /// <param name="jsRuntime"></param>
     public ExampleJsInterop(IJSRuntime jsRuntime)
     {
         moduleTask = new (() => jsRuntime.InvokeAsync<IJSObjectReference>(
