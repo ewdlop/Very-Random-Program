@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\亂七八糟.ApiService\亂七八糟.ApiService.csproj" />
+    <ProjectReference Include="..\亂七八糟.BlazorServerApp\亂七八糟.BlazorServerApp.csproj" />
     <ProjectReference Include="..\亂七八糟.Web\亂七八糟.Web.csproj" />
   </ItemGroup>
 

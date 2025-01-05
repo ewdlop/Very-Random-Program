@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.Threading", "�
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.Prompt", "亂七八糟.Prompt\亂七八糟.Prompt.csproj", "{49B623EE-6AD7-408B-B676-9A62C6401C67}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.BlazorServerApp", "亂七八糟.BlazorServerApp\亂七八糟.BlazorServerApp.csproj", "{8BFEB99B-343C-4357-A18F-EFFAC0C6C193}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,10 @@ Global
 		{49B623EE-6AD7-408B-B676-9A62C6401C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49B623EE-6AD7-408B-B676-9A62C6401C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49B623EE-6AD7-408B-B676-9A62C6401C67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BFEB99B-343C-4357-A18F-EFFAC0C6C193}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BFEB99B-343C-4357-A18F-EFFAC0C6C193}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BFEB99B-343C-4357-A18F-EFFAC0C6C193}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BFEB99B-343C-4357-A18F-EFFAC0C6C193}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -11,4 +11,6 @@ builder.AddProject<Projects.亂七八糟_Web>("webfrontend")
     .WithReference(apiService)
     .WaitFor(apiService);
 
+builder.AddProject<Projects.亂七八糟_BlazorServerApp>("亂七八糟-blazorserverapp");
+
 builder.Build().Run();
