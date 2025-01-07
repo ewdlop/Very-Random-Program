@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.Prompt", "亂�
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.BlazorServerApp", "亂七八糟.BlazorServerApp\亂七八糟.BlazorServerApp.csproj", "{8BFEB99B-343C-4357-A18F-EFFAC0C6C193}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.Extension", "亂七八糟.Extension\亂七八糟.Extension.csproj", "{65527A88-92B3-4D67-ACF4-6A1C917DEEBB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,10 @@ Global
 		{8BFEB99B-343C-4357-A18F-EFFAC0C6C193}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BFEB99B-343C-4357-A18F-EFFAC0C6C193}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BFEB99B-343C-4357-A18F-EFFAC0C6C193}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65527A88-92B3-4D67-ACF4-6A1C917DEEBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65527A88-92B3-4D67-ACF4-6A1C917DEEBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65527A88-92B3-4D67-ACF4-6A1C917DEEBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65527A88-92B3-4D67-ACF4-6A1C917DEEBB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

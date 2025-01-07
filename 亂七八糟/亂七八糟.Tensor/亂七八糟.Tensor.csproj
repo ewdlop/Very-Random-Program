@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DiffSharp" Version="0.7.7" />
+    <PackageReference Include="DiffSharp.Core" Version="1.0.7" />
     <PackageReference Include="Microsoft.ML" Version="4.0.0" />
     <PackageReference Include="Microsoft.ML.TensorFlow" Version="4.0.0" />
     <PackageReference Include="TensorFlow.NET" Version="0.150.0" />

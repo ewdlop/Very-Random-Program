@@ -11,4 +11,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\亂七八糟.Extension\亂七八糟.Extension.csproj" />
+  </ItemGroup>
+
 </Project>
