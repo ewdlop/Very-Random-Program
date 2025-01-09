@@ -1,0 +1,74 @@
+﻿@using Microsoft.AspNetCore.Components;
+@using 亂七八糟.RazorClassLibrary;
+@inherits Logging<Conversation>;
+
+<div class="ai-component @(IsProcessing ? "processing" : "")">
+    <div class="input-section">
+        <div class="prompt-input">
+            <textarea @bind="UserInput"
+                      @bind:event="OnInput"
+                      @onkeydown="HandleKeyPressAsync"
+                      placeholder="Enter your prompt here..."
+                      rows="3"
+                      class="@(IsProcessing ? "disabled" : "")"
+                      disabled="@IsProcessing">
+            </textarea>
+        </div>
+
+        <div class="button-group">
+            <button class="submit-button"
+                    @onclick="ProcessInputAsync"
+                    disabled="@(IsProcessing || string.IsNullOrWhiteSpace(UserInput))">
+                <span class="@(IsProcessing ? "hidden" : "")">Submit</span>
+                <div class="@(IsProcessing ? "loader" : "hidden")"></div>
+            </button>
+
+            <button class="clear-button"
+                    @onclick="ClearConversation"
+                    disabled="@IsProcessing">
+                Clear
+            </button>
+        </div>
+    </div>
+
+    <div class="conversation-history" @ref="_conversationRef">
+        @foreach (Message? message in ConversationHistory)
+        {
+            <div class="message @((message?.IsUser ?? false) ? "user" : "ai")">
+                <div class="message-content">
+                    @if ((message?.IsUser ?? false))
+                    {
+                        <div class="user-message">
+                            <span class="user-label">You:</span>
+                            <p>@message.Content</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="ai-message">
+                            <span class="ai-label">AI:</span>
+                            <div class="markdown-content">
+                                @((MarkupString)(message?.FormattedContent??string.Empty))
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="message-timestamp">
+                    @message?.Timestamp.ToLocalTime().ToString("g") ?? string.Empty
+                </div>
+            </div>
+        }
+
+        @if (IsProcessing)
+        {
+            <div class="message ai processing">
+                <div class="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using 亂七八糟.BlazorServerApp.Components;
 using 亂七八糟.BlazorServerApp.Components.Account;
 using 亂七八糟.BlazorServerApp.Data;
+using 亂七八糟.ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
