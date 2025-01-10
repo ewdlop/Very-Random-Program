@@ -71,14 +71,14 @@ public class FasterService(
             if (sync)
             {
                 // Log writer thread: create as many as needed
-                new Thread(new ThreadStart(LogWriterThread)).Start();
+                new Thread(LogWriterThread).Start();
 
                 // Threads for iterator scan: create as many as needed
                 new Thread(() => ScanThread()).Start();
 
                 // Threads for reporting, commit
-                new Thread(new ThreadStart(ReportThread)).Start();
-                var t = new Thread(new ThreadStart(CommitThread));
+                new Thread(()=>ReportThread()).Start();
+                var t = new Thread(() => CommitThread());
                 t.Start();
                 t.Join();
             }
@@ -89,7 +89,7 @@ public class FasterService(
 
                 const int NumParallelTasks = 10_000;
                 ThreadPool.SetMinThreads(2 * Environment.ProcessorCount, 2 * Environment.ProcessorCount);
-                TaskScheduler.UnobservedTaskException += (object sender, UnobservedTaskExceptionEventArgs e) =>
+                TaskScheduler.UnobservedTaskException += (object? sender, UnobservedTaskExceptionEventArgs e) =>
                 {
                     Console.WriteLine($"Unobserved task exception: {e.Exception}");
                     e.SetObserved();
@@ -105,12 +105,11 @@ public class FasterService(
                 var scan = Task.Run(() => AsyncScanAsync());
 
                 // Threads for reporting, commit
-                new Thread(new ThreadStart(ReportThread)).Start();
-                new Thread(new ThreadStart(CommitThread)).Start();
+                new Thread(() => ReportThread()).Start();
+                new Thread(() => CommitThread()).Start();
 
                 Task.WaitAll(tasks);
                 Task.WaitAll(scan);
-
             }
         }
     }
@@ -167,7 +166,7 @@ public class FasterService(
     /// <summary>
     /// Async version of enqueue
     /// </summary>
-    public static async Task LazyDefaultAsyncLogWriterAsync(int id)
+    public static async Task LazyDefaultAsyncLogWriterAsync(int id, CancellationToken cancellationToken = default)
     {
         bool batched = false;
 
@@ -185,7 +184,7 @@ public class FasterService(
             {
                 try
                 {
-                    await log.EnqueueAndWaitForCommitAsync(staticEntry);
+                    await log.EnqueueAndWaitForCommitAsync(staticEntry, cancellationToken);
                 }
                 catch (Exception ex)
                 {
@@ -200,10 +199,10 @@ public class FasterService(
             int count = 0;
             while (true)
             {
-                await log.EnqueueAsync(staticEntry);
+                await log.EnqueueAsync(staticEntry, cancellationToken);
                 if (count++ % 100 == 0)
                 {
-                    await log.WaitForCommitAsync();
+                    await log.WaitForCommitAsync(token: cancellationToken);
                 }
             }
         }
@@ -212,7 +211,52 @@ public class FasterService(
     /// <summary>
     /// Async version of enqueue
     /// </summary>
-    public virtual async Task AsyncLogWriterAsync(int id)
+    public virtual void AsyncLogWriter(int id)
+    {
+        bool batched = false;
+
+        Thread.Yield();
+
+        FasterLog log = FasterLog;
+
+        if (!batched)
+        {
+            // Single commit version - append each item and wait for commit
+            // Needs high parallelism (NumParallelTasks) for perf
+            // Needs separate commit thread to perform regular commit
+            // Otherwise we commit only at page boundaries
+            while (true)
+            {
+                try
+                {
+                    log.EnqueueAndWaitForCommit(staticEntry);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"{nameof(AsyncLogWriterAsync)}({id}): {ex}");
+                }
+            }
+        }
+        else
+        {
+            // Batched version - we enqueue many entries to memory,
+            // then wait for commit periodically
+            int count = 0;
+            while (true)
+            {
+                log.Enqueue(staticEntry);
+                if (count++ % 100 == 0)
+                {
+                    log.WaitForCommit();
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Async version of enqueue
+    /// </summary>
+    public virtual async Task AsyncLogWriterAsync(int id, CancellationToken cancellationToken = default)
     {
         bool batched = false;
 
@@ -230,7 +274,7 @@ public class FasterService(
             {
                 try
                 {
-                    await log.EnqueueAndWaitForCommitAsync(staticEntry);
+                    await log.EnqueueAndWaitForCommitAsync(staticEntry, cancellationToken);
                 }
                 catch (Exception ex)
                 {
@@ -245,16 +289,16 @@ public class FasterService(
             int count = 0;
             while (true)
             {
-                await log.EnqueueAsync(staticEntry);
+                await log.EnqueueAsync(staticEntry, cancellationToken);
                 if (count++ % 100 == 0)
                 {
-                    await log.WaitForCommitAsync();
+                    await log.WaitForCommitAsync(token: cancellationToken);
                 }
             }
         }
     }
 
-    public static void LazyDefaultScanThread()
+    public static void LazyDefaultScanThread(CancellationToken cancellationToken = default)
     {
         byte[] result;
 
@@ -266,7 +310,7 @@ public class FasterService(
             while (!iter.GetNext(out result, out _, out _))
             {
                 if (iter.Ended) return;
-                iter.WaitAsync().AsTask().GetAwaiter().GetResult();
+                iter.WaitAsync(cancellationToken).AsTask().GetAwaiter().GetResult();
             }
 
             // Memory pool variant:
@@ -301,7 +345,7 @@ public class FasterService(
             while (!iter.GetNext(out result, out _, out _))
             {
                 if (iter.Ended) return;
-                iter.WaitAsync().AsTask().GetAwaiter().GetResult();
+                iter.WaitAsync().GetAwaiter().GetResult();
             }
 
             // Memory pool variant:
@@ -324,12 +368,47 @@ public class FasterService(
         // using (iter = log.Scan(log.BeginAddress, long.MaxValue, "foo"))
     }
 
-    public static async Task LazyDefaultAsyncScanAsync()
+    public virtual async Task ScanThreadAsync(CancellationToken cancellationToken = default)
+    {
+        byte[] result;
+
+        FasterLog log = FasterLog;
+        FasterLogScanIterator iter = FasterLogScanIterator;
+
+        while (true)
+        {
+            while (!iter.GetNext(out result, out _, out _))
+            {
+                if (iter.Ended) return;
+                await iter.WaitAsync(cancellationToken).AsTask();
+            }
+
+            // Memory pool variant:
+            // iter.GetNext(pool, out IMemoryOwner<byte> resultMem, out int length, out long currentAddress)
+
+            if (Different(result, staticEntry))
+                throw new Exception("Invalid entry found");
+
+            // Example of random read from given address
+            // (result, _) = log.ReadAsync(iter.CurrentAddress).GetAwaiter().GetResult();
+
+            // Truncate until start of most recently read page
+            log.TruncateUntilPageStart(iter.NextAddress);
+
+            // Truncate log until after most recently read entry
+            // log.TruncateUntil(iter.NextAddress);
+        }
+
+        // Example of recoverable (named) iterator:
+        // using (iter = log.Scan(log.BeginAddress, long.MaxValue, "foo"))
+    }
+
+    public static async Task LazyDefaultAsyncScanAsync(CancellationToken cancellationToken = default)
     {
         FasterLog log = _lazyDefault.Value.FasterLog;
         FasterLogScanIterator iter = log.Scan(log.BeginAddress, long.MaxValue);
 
-        await foreach ((byte[] result, int length, long currentAddress, long nextAddress) in iter.GetAsyncEnumerable())
+        await foreach ((byte[] result, int length, long currentAddress, long nextAddress) in iter.GetAsyncEnumerable(cancellationToken))
         {
             if (Different(result, staticEntry))
                 throw new Exception("Invalid entry found");
@@ -337,12 +416,27 @@ public class FasterService(
         }
     }
 
-    public virtual async Task AsyncScanAsync()
+    public virtual void AsyncScan(CancellationToken cancellationToken = default)
     {
         FasterLog log = FasterLog;
         FasterLogScanIterator iter = log.Scan(log.BeginAddress, long.MaxValue);
 
-        await foreach ((byte[] result, int length, long currentAddress, long nextAddress) in iter.GetAsyncEnumerable())
+        iter.GetAsyncEnumerable(cancellationToken).ForEachAsync(
+            ((byte[] result, int length, long currentAddress, long nextAddress) item) =>
+        {
+            if (Different(item.result, staticEntry))
+                throw new Exception("Invalid entry found");
+            log.TruncateUntilPageStart(iter.NextAddress);
+        }, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
+    }
+
+
+    public virtual async Task AsyncScanAsync(CancellationToken cancellationToken = default)
+    {
+        FasterLog log = FasterLog;
+        FasterLogScanIterator iter = log.Scan(log.BeginAddress, long.MaxValue);
+
+        await foreach ((byte[] result, int length, long currentAddress, long nextAddress) in iter.GetAsyncEnumerable(cancellationToken))
         {
             if (Different(result, staticEntry))
                 throw new Exception("Invalid entry found");
@@ -350,7 +444,7 @@ public class FasterService(
         }
     }
 
-    public static async Task LazyDefaultReportThreadAsync()
+    public static async Task LazyDefaultReportThreadAsync(TimeSpan? delay = null, CancellationToken cancellationToken = default)
     {
         FasterLog log = _lazyDefault.Value.FasterLog;
         FasterLogScanIterator iter = _lazyDefault.Value.FasterLogScanIterator;
@@ -364,7 +458,7 @@ public class FasterService(
 
         while (true)
         {
-            await Task.Delay(5000);
+            await Task.Delay(delay ?? TimeSpan.FromMilliseconds(5000), cancellationToken);
 
             var nowTime = sw.ElapsedMilliseconds;
             var nowValue = log.TailAddress;
@@ -385,7 +479,7 @@ public class FasterService(
         }
     }
 
-    public virtual void ReportThread()
+    public virtual void ReportThread(TimeSpan? timeout = null)
     {
         FasterLog log = FasterLog;
         FasterLogScanIterator iter = FasterLogScanIterator;
@@ -399,7 +493,7 @@ public class FasterService(
 
         while (true)
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(timeout ?? TimeSpan.FromMilliseconds(5000));
 
             var nowTime = sw.ElapsedMilliseconds;
             var nowValue = log.TailAddress;
@@ -420,7 +514,7 @@ public class FasterService(
         }
     }
 
-    public async Task ReportThreadAsync()
+    public async Task ReportThreadAsync(TimeSpan? delay = null, CancellationToken cancellationToken = default)
     {
         FasterLog log = FasterLog;
         FasterLogScanIterator iter = FasterLogScanIterator;
@@ -434,7 +528,7 @@ public class FasterService(
 
         while (true)
         {
-            await Task.Delay(5000);
+            await Task.Delay(delay ?? TimeSpan.FromMilliseconds(5), cancellationToken);
 
             var nowTime = sw.ElapsedMilliseconds;
             var nowValue = log.TailAddress;
@@ -455,13 +549,13 @@ public class FasterService(
         }
     }
 
-    public static void LazyDefaultCommitThread()
+    public static void LazyDefaultCommitThread(TimeSpan? timeout = null)
     {
         FasterLog log = _lazyDefault.Value.FasterLog;
         //Task<LinkedCommitInfo> prevCommitTask = null;
         while (true)
         {
-            Thread.Sleep(5);
+            Thread.Sleep(timeout ?? TimeSpan.FromMilliseconds(5));
             log.Commit(true);
 
             // Async version
@@ -480,13 +574,38 @@ public class FasterService(
         }
     }
 
-    public void CommitThread()
+    public void CommitThread(TimeSpan? timeSpan = null)
     {
         FasterLog log = FasterLog;
         //Task<LinkedCommitInfo> prevCommitTask = null;
         while (true)
         {
-            Thread.Sleep(5);
+            Thread.Sleep(timeSpan??TimeSpan.FromMilliseconds(5));
+            log.Commit(true);
+
+            // Async version
+            // await log.CommitAsync();
+
+            // Async version that catches all commit failures in between
+            //try
+            //{
+            //    prevCommitTask = await log.CommitAsync(prevCommitTask);
+            //}
+            //catch (CommitFailureException e)
+            //{
+            //    Console.WriteLine(e);
+            //    prevCommitTask = e.LinkedCommitInfo.nextTcs.Task;
+            //}
+        }
+    }
+
+    public async Task CommitThreadAsync(TimeSpan? timeSpan = null, CancellationToken cancellationToken = default)
+    {
+        FasterLog log = FasterLog;
+        //Task<LinkedCommitInfo> prevCommitTask = null;
+        while (true)
+        {
+            await Task.Delay(timeSpan ?? TimeSpan.FromMilliseconds(5), cancellationToken);
             log.Commit(true);
 
             // Async version
