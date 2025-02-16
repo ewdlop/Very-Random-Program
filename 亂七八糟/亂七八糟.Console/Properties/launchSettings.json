@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "亂七八糟.Console": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

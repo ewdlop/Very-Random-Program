@@ -1,0 +1,18 @@
+﻿@using 亂七八糟.Model;
+@using 亂七八糟.數據結構
+
+<div>
+    @if (UserState.Value.IsLoading)
+    {
+        <p>Loading...</p>
+    }
+    else if (UserState.Value.Error != null)
+    {
+        <p class="text-danger">@UserState.Value.Error</p>
+    }
+    else
+    {
+        <button @onclick="SaveData<Option,Option,Option>">Save Data</button>
+    }
+</div>
+

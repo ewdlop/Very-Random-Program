@@ -1,7 +1,7 @@
 ﻿using FASTER.core;
 using System.Diagnostics;
-using 亂七八糟.Shared;
 using Microsoft.Extensions.Logging;
+using 亂七八糟.Shared.Interfaces;
 
 namespace 亂七八糟.Logging;
 
