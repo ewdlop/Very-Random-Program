@@ -1,4 +1,4 @@
-﻿namespace 亂七八糟.Shared;
+﻿namespace 亂七八糟.Shared.Interfaces;
 
 public interface IFASTERService
 {
