@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.RazorClassLibr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.Shared", "亂七八糟.Shared\亂七八糟.Shared.csproj", "{EA5A8E86-38B2-4650-91F8-ECDC76DC48B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.Reflection", "亂七八糟.Reflection\亂七八糟.Reflection.csproj", "{72731041-DE96-42DD-A06F-DC23C297A923}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.BackgroundServices", "亂七八糟.BackgroundServices\亂七八糟.BackgroundServices.csproj", "{5EC77A4B-1033-47AD-ABEF-1E0CC96CE948}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.Azure", "亂七八糟.Azure\亂七八糟.Azure.csproj", "{803F51AA-0F8F-4405-9841-5C1A4A296E8B}"
@@ -103,10 +101,6 @@ Global
 		{EA5A8E86-38B2-4650-91F8-ECDC76DC48B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA5A8E86-38B2-4650-91F8-ECDC76DC48B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA5A8E86-38B2-4650-91F8-ECDC76DC48B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{72731041-DE96-42DD-A06F-DC23C297A923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{72731041-DE96-42DD-A06F-DC23C297A923}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{72731041-DE96-42DD-A06F-DC23C297A923}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{72731041-DE96-42DD-A06F-DC23C297A923}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5EC77A4B-1033-47AD-ABEF-1E0CC96CE948}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5EC77A4B-1033-47AD-ABEF-1E0CC96CE948}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EC77A4B-1033-47AD-ABEF-1E0CC96CE948}.Release|Any CPU.ActiveCfg = Release|Any CPU
