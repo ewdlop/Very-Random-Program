@@ -1,0 +1,6 @@
+@亂七八糟.反射.WebAPI_HostAddress = http://localhost:5272
+
+GET {{亂七八糟.反射.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
