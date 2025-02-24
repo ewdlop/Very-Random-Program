@@ -1,36 +1,29 @@
-﻿using System;
-using System.Text;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Text;
-
-namespace 亂七八糟.SourceGenerators;
-
-[Generator]
-public class INotifyPropertyChangedGenerator : ISourceGenerator
+﻿namespace 亂七八糟.SourceGenerators
 {
-    public void Initialize(GeneratorInitializationContext context)
+    [Microsoft.CodeAnalysis.Generator]
+    public class INotifyPropertyChangedGenerator : Microsoft.CodeAnalysis.ISourceGenerator
     {
-        context.RegisterForSyntaxNotifications(() => new ClassSyntaxReceiver());
-    }
-
-    public void Execute(GeneratorExecutionContext context)
-    {
-        if (context.SyntaxReceiver is not ClassSyntaxReceiver receiver)
-            return;
-
-        foreach (var classDeclaration in receiver.Classes)
+        public void Initialize(Microsoft.CodeAnalysis.GeneratorInitializationContext context)
         {
-            var className = classDeclaration.Identifier.Text;
-            var sourceCode = GenerateINotifyPropertyChangedImplementation(className);
-            context.AddSource($"{className}_INotifyPropertyChanged.g.cs", SourceText.From(sourceCode, Encoding.UTF8));
+            context.RegisterForSyntaxNotifications(() => new ClassSyntaxReceiver());
         }
-    }
 
-    private string GenerateINotifyPropertyChangedImplementation(string className)
-    {
-        return $@"
+        public void Execute(Microsoft.CodeAnalysis.GeneratorExecutionContext context)
+        {
+            if (!(context.SyntaxReceiver is ClassSyntaxReceiver receiver))
+                return;
+
+            foreach (var classDeclaration in receiver.Classes)
+            {
+                var className = classDeclaration.Identifier.Text;
+                var sourceCode = GenerateINotifyPropertyChangedImplementation(className);
+                context.AddSource($"{className}_INotifyPropertyChanged.g.cs", Microsoft.CodeAnalysis.Text.SourceText.From(sourceCode, System.Text.Encoding.UTF8));
+            }
+        }
+
+        private string GenerateINotifyPropertyChangedImplementation(string className)
+        {
+            return $@"
 using System.ComponentModel;
 
 public partial class {className} : INotifyPropertyChanged
@@ -42,18 +35,19 @@ public partial class {className} : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }}
 }}";
+        }
     }
-}
 
-class ClassSyntaxReceiver : ISyntaxReceiver
-{
-    public List<ClassDeclarationSyntax> Classes { get; } = new List<ClassDeclarationSyntax>();
-
-    public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
+    class ClassSyntaxReceiver : Microsoft.CodeAnalysis.ISyntaxReceiver
     {
-        if (syntaxNode is ClassDeclarationSyntax classDeclaration)
+        public System.Collections.Generic.List<Microsoft.CodeAnalysis.CSharp.Syntax.ClassDeclarationSyntax> Classes { get; } = new System.Collections.Generic.List<Microsoft.CodeAnalysis.CSharp.Syntax.ClassDeclarationSyntax>();
+
+        public void OnVisitSyntaxNode(Microsoft.CodeAnalysis.SyntaxNode syntaxNode)
         {
-            Classes.Add(classDeclaration);
+            if (syntaxNode is Microsoft.CodeAnalysis.CSharp.Syntax.ClassDeclarationSyntax classDeclaration)
+            {
+                Classes.Add(classDeclaration);
+            }
         }
     }
 }
