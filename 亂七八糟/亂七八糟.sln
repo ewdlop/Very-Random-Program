@@ -67,6 +67,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.Reflection", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.反射.WebAPI", "亂七八糟.反射.WebAPI\亂七八糟.反射.WebAPI.csproj", "{788F98CB-C5BC-4133-8821-CF4FAF29C747}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.确认", "亂七八糟.确认\亂七八糟.确认.csproj", "{4B41B022-13CE-4ADD-A7FD-0FB6DA6DC60E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -189,6 +191,10 @@ Global
 		{788F98CB-C5BC-4133-8821-CF4FAF29C747}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{788F98CB-C5BC-4133-8821-CF4FAF29C747}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{788F98CB-C5BC-4133-8821-CF4FAF29C747}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B41B022-13CE-4ADD-A7FD-0FB6DA6DC60E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B41B022-13CE-4ADD-A7FD-0FB6DA6DC60E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B41B022-13CE-4ADD-A7FD-0FB6DA6DC60E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B41B022-13CE-4ADD-A7FD-0FB6DA6DC60E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
