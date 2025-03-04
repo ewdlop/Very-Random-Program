@@ -17,6 +17,13 @@
     <PackageReference Include="Azure.AI.Translation.Document" Version="2.0.0" />
     <PackageReference Include="Azure.AI.Translation.Text" Version="1.0.0" />
     <PackageReference Include="Azure.AI.Vision.ImageAnalysis" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Extensions.AI" Version="9.3.0-preview.1.25114.11" />
+    <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="9.3.0-preview.1.25114.11" />
+    <PackageReference Include="Microsoft.Extensions.AI.AzureAIInference" Version="9.3.0-preview.1.25114.11" />
+    <PackageReference Include="Microsoft.Extensions.AI.Evaluation" Version="9.3.0-preview.1.25126.9" />
+    <PackageReference Include="Microsoft.Extensions.AI.Evaluation.Quality" Version="9.3.0-preview.1.25126.9" />
+    <PackageReference Include="Microsoft.Extensions.AI.Evaluation.Reporting" Version="9.3.0-preview.1.25126.9" />
+    <PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="9.3.0-preview.1.25114.11" />
     <PackageReference Include="Polly" Version="8.5.0" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
     <PackageReference Include="System.Security.Cryptography.Csp" Version="4.3.0" />

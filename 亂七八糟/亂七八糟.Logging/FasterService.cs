@@ -430,6 +430,18 @@ public class FasterService(
         }, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
     }
 
+    public virtual void AsyncScan()
+    {
+        FasterLog log = FasterLog;
+        FasterLogScanIterator iter = log.Scan(log.BeginAddress, long.MaxValue);
+        foreach ((byte[] result, int length, long currentAddress, long nextAddress) in iter.GetAsyncEnumerable().ToBlockingEnumerable())
+        {
+            if (Different(result, staticEntry))
+                throw new Exception("Invalid entry found");
+            log.TruncateUntilPageStart(iter.NextAddress);
+        }
+    }
+
 
     public virtual async Task AsyncScanAsync(CancellationToken cancellationToken = default)
     {
