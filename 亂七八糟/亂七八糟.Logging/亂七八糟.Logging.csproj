@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Common.Logging" Version="3.4.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.2" />
     <PackageReference Include="Microsoft.FASTER.Client" Version="2.6.5" />
     <PackageReference Include="Microsoft.FASTER.Server" Version="2.6.5" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="9.0.0" />

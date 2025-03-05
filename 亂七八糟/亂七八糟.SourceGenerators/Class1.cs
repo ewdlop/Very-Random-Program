@@ -1,5 +1,11 @@
 ﻿namespace 亂七八糟.SourceGenerators
 {
+    public class Class1
+    {
+
+    }
+
+#if BANNED
     [Microsoft.CodeAnalysis.Generator]
     public class INotifyPropertyChangedGenerator : Microsoft.CodeAnalysis.ISourceGenerator
     {
@@ -50,4 +56,5 @@ public partial class {className} : INotifyPropertyChanged
             }
         }
     }
+#endif
 }

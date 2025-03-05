@@ -69,6 +69,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.反射.WebAPI"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.确认", "亂七八糟.确认\亂七八糟.确认.csproj", "{4B41B022-13CE-4ADD-A7FD-0FB6DA6DC60E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.地理", "亂七八糟.地理\亂七八糟.地理.csproj", "{FECED323-04D1-4646-83FA-C6870CF8EECF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -195,6 +197,10 @@ Global
 		{4B41B022-13CE-4ADD-A7FD-0FB6DA6DC60E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B41B022-13CE-4ADD-A7FD-0FB6DA6DC60E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B41B022-13CE-4ADD-A7FD-0FB6DA6DC60E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FECED323-04D1-4646-83FA-C6870CF8EECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FECED323-04D1-4646-83FA-C6870CF8EECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FECED323-04D1-4646-83FA-C6870CF8EECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FECED323-04D1-4646-83FA-C6870CF8EECF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -207,5 +213,8 @@ Global
 		{4142B24B-0C98-4238-A7A7-836A56F8FC5D} = {C1B9CC90-04B6-4FE2-9E26-C3BC52E4EA9A}
 		{A705D6E8-1462-458D-8A24-2D018ED13315} = {F9ABA2B7-D55D-4CF8-BB7F-B8ECC29608F9}
 		{788F98CB-C5BC-4133-8821-CF4FAF29C747} = {F9ABA2B7-D55D-4CF8-BB7F-B8ECC29608F9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2B9896B8-301D-44BC-B965-BDD2103E390B}
 	EndGlobalSection
 EndGlobal

@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.2" />
       <PackageReference Include="MimeKit" Version="4.10.0" />
       <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
       <PackageReference Include="System.Security.Cryptography.Pkcs" Version="9.0.2" />
