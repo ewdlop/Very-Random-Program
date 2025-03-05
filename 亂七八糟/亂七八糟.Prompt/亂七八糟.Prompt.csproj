@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AutoGen" Version="0.2.1" />
     <PackageReference Include="LangChain" Version="0.17.0" />
-    <PackageReference Include="Microsoft.SemanticKernel" Version="1.38.0" />
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.40.1" />
     <PackageReference Include="System.Speech" Version="9.0.2" />
   </ItemGroup>
 
