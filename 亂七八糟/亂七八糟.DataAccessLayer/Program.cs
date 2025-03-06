@@ -25,6 +25,7 @@ public class Program
         using (var scope = host.Services.CreateScope())
         {
             await using var db = new BloggingContext();
+            
             db.Database.EnsureCreated();
 
             // Note: This sample requires the database to be created before running.
