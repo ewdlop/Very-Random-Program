@@ -71,6 +71,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.确认", "亂�
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.地理", "亂七八糟.地理\亂七八糟.地理.csproj", "{FECED323-04D1-4646-83FA-C6870CF8EECF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "亂七八糟.DataAccessLayer.Console", "亂七八糟.DataAccessLayer.Console\亂七八糟.DataAccessLayer.Console.csproj", "{AF37EE29-1335-447F-8D65-3B6F857971BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -201,6 +203,10 @@ Global
 		{FECED323-04D1-4646-83FA-C6870CF8EECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FECED323-04D1-4646-83FA-C6870CF8EECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FECED323-04D1-4646-83FA-C6870CF8EECF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF37EE29-1335-447F-8D65-3B6F857971BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF37EE29-1335-447F-8D65-3B6F857971BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF37EE29-1335-447F-8D65-3B6F857971BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF37EE29-1335-447F-8D65-3B6F857971BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
