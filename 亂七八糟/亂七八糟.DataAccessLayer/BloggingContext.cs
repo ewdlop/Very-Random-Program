@@ -10,8 +10,8 @@ public class BloggingContext : DbContext
     //public static readonly BloggingContext Default = new BloggingContext();
     //public required DbSet<Blog> Blogs { get; set; } 
     //public required DbSet<Post>? Posts { get; set; }
-    public DbSet<Blog>? Blogs { get; set; }
-    public DbSet<Post>? Posts { get; set; }
+    public DbSet<Blog> Blogs { get; set; }
+    public DbSet<Post> Posts { get; set; }
     public string? DbPath { get; } = string.Empty;
 
     public BloggingContext()
@@ -40,6 +40,19 @@ public class BloggingContext : DbContext
         Blogs = context.Set<Blog>();
         Posts = context.Set<Post>();
         DbPath = dbPath;
+    }
+
+    public BloggingContext(string dbPath)
+    {
+        Initialize();
+        DbPath = dbPath;
+    }
+
+
+    protected virtual void Initialize()
+    {
+        Blogs = Set<Blog>();
+        Posts = Set<Post>();
     }
 
     //public BloggingContext(string dbPath)
